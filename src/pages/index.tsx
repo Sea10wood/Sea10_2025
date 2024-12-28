@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Header from '../app/components/Header';
 import Footer from '../app/components/Footer';
 import '../pages/globals.css';
@@ -7,11 +8,39 @@ import InstagramWidget from '@/app/components/InstagramWidget';
 import Bubbles from '@/app/components/Bubbles';
 
 const Home = () => {
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+
+  useEffect(() => {
+    // 初期状態をローカルストレージから取得
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
+      setIsDarkMode(true);
+      document.documentElement.classList.add('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
   return (
-    <div className="flex flex-col min-h-screen relative">
-       <Bubbles />
-      <Header />
+    <div className={`flex flex-col min-h-screen relative ${isDarkMode ? 'dark' : ''}`}>
+      <Bubbles />
+      <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       <main className="flex-grow p-16 mt-16">
+        <button
+          onClick={toggleDarkMode}
+          className="absolute top-4 right-4 p-2 border rounded bg-gray-200 dark:bg-gray-700"
+        >
+          {isDarkMode ? 'ライトモード' : 'ダークモード'}
+        </button>
         <AnimatedSection id="whoami" title="Who am I">
           <p className="text-lg">
             九州工業大学情報工学部知的システム工学科システム制御
@@ -23,18 +52,18 @@ const Home = () => {
             年中無休で迷走中。
           </p>
           <p className="text-lg ">
-          <br/>
-          カンファレンスによくいます。
+            <br />
+            カンファレンスによくいます。
           </p>
         </AnimatedSection>
         <AnimatedSection id="blog" title="SNS">
-        <div className="sns-wrapper">
-        <div className="twitter-widget">
-          <TwitterWidget username="10derSea" />
-          </div>
-          <div className="instagram-widget">
-          <InstagramWidget postUrl="https://www.instagram.com/sea10____/" />
-          </div>
+          <div className="sns-wrapper">
+            <div className="twitter-widget">
+              <TwitterWidget username="10derSea" />
+            </div>
+            <div className="instagram-widget">
+              <InstagramWidget postUrl="https://www.instagram.com/sea10____/" />
+            </div>
           </div>
         </AnimatedSection>
         <AnimatedSection id="contact" title="Contact">
