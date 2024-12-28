@@ -18,6 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const apiData = await response.json();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const articles = apiData.data.map((article: any) => ({
       id: article.id,
       title: article.name,
