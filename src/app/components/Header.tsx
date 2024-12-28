@@ -5,7 +5,7 @@ const Header = () => {
 
   return (
     <header className="bg-gray-800 text-white p-4 flex justify-between items-center relative z-20">
-      <h1 className="text-2xl font-bold">Sea10's room</h1>
+      <h1 className="text-2xl font-bold">Sea10&apos;s room</h1>
       <nav className="hidden md:flex space-x-6">
         <a href="#whoami" className="hover:text-gray-300">
           Who am I
